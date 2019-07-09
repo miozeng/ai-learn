@@ -61,6 +61,11 @@ K-means算法的一个案例是：客户价值细分，精准投资。
 
 
 
+sklearn 中文文档
+https://sklearn.apachecn.org/#/
+主要参考网站
+https://github.com/apachecn/AiLearning
+和吴恩达的课程
 
 
 
