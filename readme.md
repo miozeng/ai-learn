@@ -8,5 +8,7 @@
 |[python科学计算库](python科学计算库)|NumPy,Scipy,Pandas,Matplotlib.| 
 |[数据分析，可视化与预处理](dataanalysis)|数据的分析处理|  
 |[机器学习算法](machinelearning)|机器学习算法包括五大类。回归（线性回归）,	分类（逻辑回归，K-近邻，朴素贝叶斯，决策树，支持向量机），	聚类（K-Means），	关联分析（F-P Growth），	降维（主成成分分析）|  
-|[深度学习算法](deeplearning)|Feign调用服务，使用hystrix实现服务隔离|
-|[实战--推荐算法](实战)|推荐算法.人类识别，图片分类，NLP等.|  
+|[深度学习算法](deeplearn)|深度学习包括神经网络，卷积神经网络和各类流行算法的学习等|
+|[TensorFlow](TensorFlow)|TensorFlow是基于2.0的TensorFlow的学习|
+|[推荐算法](推荐算法)|不同的方式实现协同过滤的推荐算法.|  
+|[计算机视觉](计算机视觉)|计算机视觉，包括opencv 以及通过深度学习处理计算机视觉等.|  

@@ -54,6 +54,18 @@ def get_landmarks(im):
 
     return numpy.matrix([[p.x, p.y] for p in predictor(im, rects[0]).parts()])
 
+#==================1.0 关键点定位与画图========================================
+#读取图片并获取关键点
+def read_im_and_landmarks(fname):
+      # 以 RGB 模式读取图像
+    im = cv2.imread(fname, cv2.IMREAD_COLOR)
+    #缩放
+    im = cv2.resize(im, (im.shape[1] * SCALE_FACTOR,
+                         im.shape[0] * SCALE_FACTOR))
+    s = get_landmarks(im)
+
+    return im, s
+
 # 人脸关键点，画图函数
 def annotate_landmarks(im, landmarks):
     im = im.copy()
@@ -65,16 +77,8 @@ def annotate_landmarks(im, landmarks):
                     color=(0, 0, 255))
         cv2.circle(im, pos, 3, color=(0, 255, 255))
     return im
-#读取图片并获取关键点
-def read_im_and_landmarks(fname):
-      # 以 RGB 模式读取图像
-    im = cv2.imread(fname, cv2.IMREAD_COLOR)
-    #缩放
-    im = cv2.resize(im, (im.shape[1] * SCALE_FACTOR,
-                         im.shape[0] * SCALE_FACTOR))
-    s = get_landmarks(im)
 
-    return im, s
+
 
 
 
