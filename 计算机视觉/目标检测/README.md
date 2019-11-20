@@ -251,6 +251,15 @@ Mask R-CNN可以分解为如下的3个模块：Faster-RCNN、RoI Align和Mask。算法框架如下：
 
 最后，对这些RoI进行分类（N类别分类）、BB回归和MASK生成（在每一个ROI里面进行FCN操作）。
 
+#### ROI Align
+
+Mask R-CNN使用RoIAlign取代了Faster RCNN中的RoIPooling
+RoIAlign：RoIPool的目的是为了从RPN网络确定的ROI中导出较小的特征图(a small feature map，eg 7x7)，ROI的大小各不相同，但是RoIPool后都变成了7x7大小。RPN网络会提出若干RoI的坐标以[x,y,w,h]表示，然后输入RoI Pooling，输出7x7大小的特征图供分类和定位使用。问题就出在RoI Pooling的输出大小是7x7上，如果RON网络输出的RoI大小是8*8的，那么无法保证输入像素和输出像素是一一对应，首先他们包含的信息量不同（有的是1对1，有的是1对2），其次他们的坐标无法和输入对应起来（1对2的那个RoI输出像素该对应哪个输入像素的坐标？）。这对分类没什么影响，但是对分割却影响很大。RoIAlign的输出坐标使用插值算法得到，不再量化；每个grid中的值也不再使用max，同样使用差值算法。
+
+#### Mask
+下图阐述了Mask R-CNN的Mask branch：
+![iamge](img/mskrnn2.jpg)
+
 
 Mask R-CNN是一个非常灵活的框架，可以增加不同的分支完成不同的任务，
 可以完成目标分类、目标检测、语义分割、实例分割、人体姿势识别等多种任务。
@@ -259,6 +268,20 @@ Mask R-CNN是一个非常灵活的框架，可以增加不同的分支完成不同的任务，
 
 ### YOLO
 https://arxiv.org/abs/1506.02640
+
+### YOLOv1
+首先YOLOv1会把图像看成一个sxs的栅格，这里的s是等于7，每个栅格预测2个bounding boxes以及栅格含有对象的置信度，同时每个栅格还是预测栅格所属的对象类别，然后通过一些处理方式得到最后的结果
+架构：然后，我们来看看YOLOv1的架构，YOLOv1由24层卷积层，4个最大池化层和2个全连接层组成，常规操作，我们关注最后的输出是7x7x30，这里是7x7代表输入图像的7x7栅格，一一对应，30的前十个代表2个bounding boxes的坐标以及对象的置信度，后20个代表VOC数据集的20个类别。
+
+![iamge](img/YOLOV1.png)
+
+交并比（IOU）: 这是一个评价两个bounding box相互重合程度的指标，这个指标等于两个bounding box的交集面积除以它们并集的面积。当两个bounding box没有任何交集时，IoU为0，即IoU的最小取值，当两个bounding box完全重合时，IoU为1，即IoU的最大取值，所以IoU的取值范围是[0,1]。
+
+![iamge](img/IOU.png)
+
+推断：给定一张图，运行YOLO后，总共有98个bounding box输出出来，可以通过非极大值抑制算法得到最后可靠的结果。大致分两步，第一步根据阈值去除那些置信度低的bounding box，然后进入一个循环，首先挑选出最大置信度的bounding box作为预测输出，然后去除那些与这个最大置信度的bounding box的IoU超过0.5的bounding box，因为我们可以看到一个对象有很多bounding box，它们很多是相交的，这样一个对象的bounding box就确定好了，然后，我们再进入循环，找出下一个对象的bounding box，最后直到没有剩余的bounding box，循环结束。
+
+
 
 ### SSD
 https://arxiv.org/abs/1512.02325
