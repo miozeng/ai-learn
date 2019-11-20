@@ -118,7 +118,7 @@ HOG的缺陷：
 ### RCNN
 https://arxiv.org/abs/1311.2524
 
-![iamge](RCNN.JPG)
+![iamge](img/RCNN.JPG)
 ? R-CNN其实没有过多的使用“深度学习”思想，而是将“深度学习”和传统的“计算机视觉”的知识相结合
 
 #### Selective Search
